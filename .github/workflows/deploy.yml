@@ -1,36 +1,22 @@
-name: Deploy to GitHub Pages
+name: Deploy Static Site to GitHub Pages
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js (if you're using Node.js)
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Adjust this if necessary
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build the project
-        run: npm run build  # Or whatever command you use to build
+      - name: Checkout source
+        uses: actions/checkout@v3
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.GH_PAT }}  # Use the secret here
-          publish_branch: gh-pages
-          publish_dir: ./public  # Adjust this based on where your built files are
-          allow_empty_commit: false
-          force_orphan: false
-          enable_jekyll: false
-          disable_nojekyll: false
-          exclude_assets: .github
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Assuming your index.html is in the root folder
