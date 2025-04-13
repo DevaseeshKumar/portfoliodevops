@@ -18,9 +18,9 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Using the built-in GitHub token
+          personal_token: ${{ secrets.GH_PAT }}  # This ensures the token is retrieved from GitHub secrets
           publish_branch: gh-pages    # The branch where the site will be hosted
-          publish_dir: .             # Publish the root directory (since no build tool is involved)
+          publish_dir: .             # Publish the root directory
           allow_empty_commit: false  # Ensure no empty commits are allowed
           force_orphan: false        # Create a new orphan branch for GitHub Pages
           enable_jekyll: false       # Disable Jekyll processing (if you don't need it)
