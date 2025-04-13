@@ -3,7 +3,7 @@ name: Deploy Portfolio to GitHub Pages
 on:
   push:
     branches:
-      - main   # Triggers the workflow on pushes to the 'main' branch
+      - main
 
 jobs:
   deploy:
@@ -13,28 +13,11 @@ jobs:
       # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
-        
-      # Step 2: Set up Node.js (needed for deployment)
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14' # You can set your preferred version
 
-      # Step 3: Install dependencies (if needed)
-      # If you are using any build tools (like Vite, Webpack), install dependencies
-      - name: Install dependencies
-        run: |
-          npm install  # If using npm
-
-      # Step 4: Build the project
-      - name: Build Project
-        run: |
-          npm run build   # If using a build tool like Vite/React
-
-      # Step 5: Deploy to GitHub Pages
+      # Step 2: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages    # You can use the 'gh-pages' branch to host your site
-          folder: build       # Folder containing the built project (adjust according to your build tool)
+          branch: gh-pages    # This is the branch where your site will be hosted
+          folder: .           # Since you don't need to build, deploy the root folder
