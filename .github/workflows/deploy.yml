@@ -1,4 +1,4 @@
-name: Deploy Portfolio to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -8,19 +8,29 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Deploy to GitHub Pages
+      - name: Setup Node.js (if you're using Node.js)
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Adjust this if necessary
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build  # Or whatever command you use to build
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.GH_PAT }}  # This ensures the token is retrieved from GitHub secrets
-          publish_branch: gh-pages    # The branch where the site will be hosted
-          publish_dir: .             # Publish the root directory
-          allow_empty_commit: false  # Ensure no empty commits are allowed
-          force_orphan: false        # Create a new orphan branch for GitHub Pages
-          enable_jekyll: false       # Disable Jekyll processing (if you don't need it)
+          personal_token: ${{ secrets.GH_PAT }}  # Use the secret here
+          publish_branch: gh-pages
+          publish_dir: ./public  # Adjust this based on where your built files are
+          allow_empty_commit: false
+          force_orphan: false
+          enable_jekyll: false
+          disable_nojekyll: false
+          exclude_assets: .github
